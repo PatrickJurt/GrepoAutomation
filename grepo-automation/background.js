@@ -4,11 +4,11 @@ function executeTask() {
     console.log("Found tabs:", tabs); // Log the found tabs
     if (tabs.length > 0) {
       let grepolisTabId = tabs[0].id;
-      console.log("Injecting content script into tab:", grepolisTabId); // Log tab ID
+      console.log("Injecting autofarmercontent script into tab:", grepolisTabId); // Log tab ID
       chrome.scripting.executeScript(
           {
             target: { tabId: grepolisTabId },
-            files: ['content.js'],
+            files: ['autofarmercontent.js'],
           },
           (injectionResults) => {
             if (chrome.runtime.lastError) {
