@@ -1,7 +1,4 @@
 (function() {
-    const villages = require('./villageData');
-
-
     // Check if automation is already running
     if (window.grepolisAutomationRunning) {
         console.log("Click automation is already running.");
@@ -36,6 +33,42 @@
             await delay(500);
         } else {
             console.log("Div with name 'island_view' not found.");
+        }
+
+        /*
+        Only add the url of one city per island
+        To find the city url, go to profile, open dev tools and select the city
+        This will highlight an anchor element with a href to copy the url from
+        To find the farming island url, go to city info, open dev tools and select the island
+        This will highlight an anchor element with a href to copy the url from
+        */
+        let villages;
+        if (document.querySelector('h3').textContent.trim() === 'HansliHornochse'){
+            villages = [
+                {
+                    cityName: "HansliHornochse's Stadt",
+                    cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IkhhbnNsaUhvcm5vY2hzZXMgU3RhZHQifQ==",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aekos",
+                        "Dounosgav",
+                        "Hydradougav"
+                    ]
+                }
+            ];
+        }else{
+            villages = [
+                {
+                    cityName: "HugoHornochse's Stadt",
+                    cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6Ikh1Z29Ib3Jub2Noc2VzIFN0YWR0In0=",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Ithnosrhota",
+                        "Nadou",
+                        "Nakokos"
+                    ]
+                }
+            ];
         }
 
         for (const city of villages) {

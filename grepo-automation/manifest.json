@@ -8,6 +8,12 @@
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*.grepolis.com/*"],
+      "js": ["content.js"]
+    }
+  ],
   "host_permissions": [
     "*://*.grepolis.com/*"
   ]
