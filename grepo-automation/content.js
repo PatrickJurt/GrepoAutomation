@@ -17,22 +17,13 @@
     async function performClicks() {
         console.log("Starting the farming click sequence...");
 
-        let cityOverview = document.querySelector('div[class="city_overview"]');
-        console.log("cityOverview");
-        if (cityOverview) {
-            cityOverview.click();
-            await delay(500);
-        } else {
-            console.log("Div with class 'btn_claim_resources' not found.");
-        }
-
         let profile = document.querySelector('li[data-option-id="profile"]');
         console.log("profile");
         if (profile) {
             profile.click();
             await delay(500);
         } else {
-            console.log("Div with name 'island_view' not found.");
+            console.log("Li with data-option-id 'profile' not found.");
         }
 
         /*
@@ -42,46 +33,50 @@
         To find the farming island url, go to city info, open dev tools and select the island
         This will highlight an anchor element with a href to copy the url from
         */
-        let villages;
-        if (document.querySelector('h3').textContent.trim() === 'HansliHornochse'){
-            villages = [
-                {
-                    cityName: "HansliHornochse's Stadt",
-                    cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IkhhbnNsaUhvcm5vY2hzZXMgU3RhZHQifQ==",
-                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                    farmingVillages: [
-                        "Aekos",
-                        "Dounosgav",
-                        "Hydradougav"
-                    ]
-                }
-            ];
-        }else{
-            villages = [
-                {
-                    cityName: "HugoHornochse's Stadt",
-                    cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6Ikh1Z29Ib3Jub2Noc2VzIFN0YWR0In0=",
-                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                    farmingVillages: [
-                        "Ithnosrhota",
-                        "Nadou",
-                        "Nakokos"
-                    ]
-                }
-            ];
+        let villages = [];
+        const title = document.querySelector('h3');
+        if (title){
+            console.log('Running for', title);
+            if (title.textContent.trim() === 'HansliHornochse'){
+                villages = [
+                    {
+                        cityName: "HansliHornochse's Stadt",
+                        cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IkhhbnNsaUhvcm5vY2hzZXMgU3RhZHQifQ==",
+                        islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                        farmingVillages: [
+                            "Aekos",
+                            "Dounosgav",
+                            "Hydradougav",
+                            "Draiththospsi",
+                        ]
+                    }
+                ];
+            }else{
+                villages = [
+                    {
+                        cityName: "HugoHornochse's Stadt",
+                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6Ikh1Z29Ib3Jub2Noc2VzIFN0YWR0In0=",
+                        islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                        farmingVillages: [
+                            "Ithnosrhota",
+                            "Nadou",
+                            "Nakokos"
+                        ]
+                    }
+                ];
+            }
         }
 
         for (const city of villages) {
-            console.log("city");
             console.log(`Processing city: ${city.cityName}`);
 
-            let town = document.querySelector(`a[href='#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6Ikh1Z29Ib3Jub2Noc2VzIFN0YWR0In0=']`);
+            let town = document.querySelector(`a[href='${city.cityURL}']`);
             console.log("town");
             if (town) {
                 town.click();
                 await delay(500);
             } else {
-                console.log("Anchor tag with ID 'farm_town_1914' not found.");
+                console.log(`Link with href of ${city.cityName} (${city.cityURL}) not found.`);
             }
 
             let info = document.querySelector('div[id="info"]');
@@ -90,17 +85,16 @@
                 info.click();
                 await delay(500);
             } else {
-                console.log("Div with class 'btn_claim_resources' not found.");
+                console.log("Div with id 'info' not found.");
             }
 
-            let island = document.querySelector('a[href="#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0="]');
+            let island = document.querySelector(`a[href='${city.islandURL}']`);
             console.log("island");
             if (island) {
-                console.log("Clicking the first div with class 'btn_claim_resources'...");
                 island.click();
-                await delay(500); // Wait for 2 seconds
+                await delay(500);
             } else {
-                console.log("Div with class 'btn_claim_resources' not found.");
+                console.log(`Link with href '${city.islandURL}' not found.`);
             }
 
             let islandInfo = document.querySelector('div[id="island_info"]');
@@ -109,7 +103,7 @@
                 islandInfo.click();
                 await delay(500);
             } else {
-                console.log("Div with class 'btn_claim_resources' not found.");
+                console.log("Div with id 'island_info' not found.");
             }
 
             for (const farmingVillage of city.farmingVillages) {
@@ -158,7 +152,7 @@
             }
 
             let closeIslandInfo = document.querySelector('button[class="icon_right icon_type_speed ui-dialog-titlebar-close"]');
-            console.log("closeIsland");
+            console.log("closeTown");
             if (closeIslandInfo) {
                 closeIslandInfo.click();
                 await delay(500);
@@ -167,25 +161,21 @@
             }
 
             let closeCity = document.querySelector('button[class="icon_right icon_type_speed ui-dialog-titlebar-close"]');
-            console.log("closeIsland");
+            console.log("closeProfile");
             if (closeCity) {
                 closeCity.click();
                 await delay(500);
             } else {
                 console.log("Div with class 'btn_claim_resources' not found.");
             }
-
-
         }
-
         console.log("Click sequence completed.");
     }
 
-// Execute the click sequence immediately on the first run
+    // Execute the click sequence immediately on the first run
     performClicks().then(() => {
         // Start the interval to perform clicks every 5 minutes (300500 milliseconds)
         intervalId = setInterval(performClicks, 300500); // Repeat every 5 minutes
-        console.log("Click automation started.");
     });
 
     // Listen for messages to stop the interval
