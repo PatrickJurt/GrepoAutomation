@@ -1,3 +1,19 @@
+/*
+TODO
+
+- Manche Städte 5min / 10min Ressi
+- Interface
+- Gratis Bauschleife
+- Bei Ext Reload mehrfaches laufen der Extension
+- Bei vollem Lager kein farmen
+
+
+
+
+*/
+
+
+
 function executeTask() {
   console.log("Checking for Grepolis tabs..."); // Log when the task starts
   chrome.tabs.query({ url: "*://*.grepolis.com/*" }, (tabs) => {
