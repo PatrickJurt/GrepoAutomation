@@ -1,6 +1,7 @@
-import villages from './villageData';
-
 (function() {
+    const villages = require('./villageData');
+
+
     // Check if automation is already running
     if (window.grepolisAutomationRunning) {
         console.log("Click automation is already running.");
