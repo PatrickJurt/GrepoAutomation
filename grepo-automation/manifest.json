@@ -11,7 +11,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.grepolis.com/*"],
-      "js": ["content.js"]
+      "js": ["FarmingAutomationContent.js"]
     }
   ],
   "host_permissions": [

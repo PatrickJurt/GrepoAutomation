@@ -14,14 +14,32 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    function awaitLoading(){
+        return new Promise((resolve) => {
+            const checkExistence = setInterval(() => {
+                const loader = document.getElementById('ajax_loader');
+                if (loader){
+                    if (loader.style.visibility === 'hidden'){
+                        clearInterval(checkExistence);
+                        console.log('Awaited Loading')
+                        resolve();
+                    }
+                } else{
+                    resolve();
+                }
+            }, 100);
+        });
+    }
+
     async function performClicks() {
         console.log("Starting the farming click sequence...");
 
         let profile = document.querySelector('li[data-option-id="profile"]');
         console.log("profile");
+        console.log(profile)
         if (profile) {
             profile.click();
-            await delay(500);
+            await awaitLoading();
         } else {
             console.log("Li with data-option-id 'profile' not found.");
         }
@@ -74,7 +92,7 @@
             console.log("town");
             if (town) {
                 town.click();
-                await delay(500);
+                await awaitLoading();
             } else {
                 console.log(`Link with href of ${city.cityName} (${city.cityURL}) not found.`);
             }
@@ -83,7 +101,7 @@
             console.log("info");
             if (info) {
                 info.click();
-                await delay(500);
+                await awaitLoading();
             } else {
                 console.log("Div with id 'info' not found.");
             }
@@ -92,7 +110,7 @@
             console.log("island");
             if (island) {
                 island.click();
-                await delay(500);
+                await awaitLoading();
             } else {
                 console.log(`Link with href '${city.islandURL}' not found.`);
             }
@@ -101,7 +119,7 @@
             console.log("islandInfo");
             if (islandInfo) {
                 islandInfo.click();
-                await delay(500);
+                await awaitLoading();
             } else {
                 console.log("Div with id 'island_info' not found.");
             }
@@ -116,7 +134,7 @@
                 if (village) {
                     console.log("Clicking on village anchor with text:", village.textContent);
                     village.click();
-                    await delay(500);
+                    await awaitLoading();
                 } else {
                     console.log(`Anchor with inner text '${farmingVillage}' not found.`);
                 }
@@ -125,7 +143,7 @@
                 console.log("claimRessources");
                 if (claimRessources) {
                     claimRessources.click();
-                    await delay(500);
+                    await awaitLoading();
                 } else {
                     console.log("Div with class 'btn_claim_resources' not found.");
                 }
@@ -134,7 +152,7 @@
                 console.log("closeVillage");
                 if (closeVillage) {
                     closeVillage.click();
-                    await delay(500);
+                    await awaitLoading();
                 } else {
                     console.log("Div with class 'btn_claim_resources' not found.");
                 }
@@ -146,7 +164,6 @@
             console.log("closeIsland");
             if (closeIsland) {
                 closeIsland.click();
-                await delay(500);
             } else {
                 console.log("Div with class 'btn_claim_resources' not found.");
             }
@@ -155,7 +172,6 @@
             console.log("closeTown");
             if (closeIslandInfo) {
                 closeIslandInfo.click();
-                await delay(500);
             } else {
                 console.log("Div with class 'btn_claim_resources' not found.");
             }
@@ -164,7 +180,6 @@
             console.log("closeProfile");
             if (closeCity) {
                 closeCity.click();
-                await delay(500);
             } else {
                 console.log("Div with class 'btn_claim_resources' not found.");
             }
