@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const seconds = Math.floor((timeRemaining % 60000) / 1000); // Convert remaining milliseconds to seconds
 
                     countdownElement.textContent = `${minutes}m ${seconds}s until next farming`;
+
                 } else {
                     countdownElement.textContent = "Running soon..."; // If time has passed or very near execution
                 }

@@ -1,6 +1,6 @@
 (function() {
 
-    const FARMING_DELAY = 60500;
+    const FARMING_DELAY = 300500;
 
     // Check if automation is already running
     if (window.grepolisAutomationRunning) {
