@@ -3,10 +3,14 @@
   "name": "Grepolis Automation",
   "version": "1.0",
   "permissions": [
-    "tabs", "activeTab", "scripting", "alarms"
+    "tabs", "activeTab", "scripting", "alarms", "storage"
   ],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Grepolis Automation"
   },
   "content_scripts": [
     {

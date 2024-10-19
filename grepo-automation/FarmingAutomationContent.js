@@ -1,4 +1,7 @@
 (function() {
+
+    const FARMING_DELAY = 300500;
+
     // Check if automation is already running
     if (window.grepolisAutomationRunning) {
         console.log("Click automation is already running.");
@@ -7,7 +10,6 @@
 
     window.grepolisAutomationRunning = true; // Set the flag to true
 
-    // Move the interval declaration outside the if statement
     let intervalId;
 
     function delay(ms) {
@@ -29,6 +31,12 @@
                 }
             }, 100);
         });
+    }
+
+    function calculateNextFarming() {
+        const currentTime = new Date().getTime(); // Get the current time in milliseconds
+         // Add FARMING_DELAY to current time
+        return currentTime + FARMING_DELAY; // You can return nextFarmingDate if you need to use it later
     }
 
     async function performClicks() {
@@ -78,7 +86,8 @@
                         farmingVillages: [
                             "Ithnosrhota",
                             "Nadou",
-                            "Nakokos"
+                            "Nakokos",
+                            "Gathosrosko"
                         ]
                     }
                 ];
@@ -189,8 +198,10 @@
 
     // Execute the click sequence immediately on the first run
     performClicks().then(() => {
-        // Start the interval to perform clicks every 5 minutes (300500 milliseconds)
-        intervalId = setInterval(performClicks, 300500); // Repeat every 5 minutes
+        const nextFarmingTime = calculateNextFarming();
+        console.log(nextFarmingTime);
+        chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+        intervalId = setInterval(performClicks, FARMING_DELAY);
     });
 
     // Listen for messages to stop the interval
