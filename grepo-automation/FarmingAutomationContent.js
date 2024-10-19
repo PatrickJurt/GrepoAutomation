@@ -1,6 +1,6 @@
 (function() {
 
-    const FARMING_DELAY = 300500;
+    const FARMING_DELAY = 60500;
 
     // Check if automation is already running
     if (window.grepolisAutomationRunning) {
@@ -30,12 +30,14 @@
     }
 
     function calculateNextFarming() {
-        const currentTime = new Date().getTime(); // Get the current time in milliseconds
-        // Add FARMING_DELAY to current time
-        return currentTime + FARMING_DELAY; // You can return nextFarmingDate if you need to use it later
+        const currentTime = new Date().getTime();
+        return currentTime + FARMING_DELAY;
     }
 
     async function performClicks() {
+        const nextFarmingTime = calculateNextFarming();
+        console.log(nextFarmingTime);
+        chrome.storage.sync.set({ nextExecution: nextFarmingTime });
         console.log("Starting the farming click sequence...");
 
         let profile = document.querySelector('li[data-option-id="profile"]');
@@ -83,7 +85,8 @@
                             "Ithnosrhota",
                             "Nadou",
                             "Nakokos",
-                            "Gathosrosko"
+                            "Gathosrosko",
+                            "Gakosithko"
                         ]
                     }
                 ];
