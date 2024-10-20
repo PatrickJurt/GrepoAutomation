@@ -2,8 +2,6 @@
 TODO
 
 - Manche Städte 5min / 10min Ressi
-- Interface
-- Gratis Bauschleife
 - Bei Ext Reload mehrfaches laufen der Extension
 - Bei vollem Lager kein farmen
 

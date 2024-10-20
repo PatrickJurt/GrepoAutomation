@@ -77,10 +77,10 @@
                 if (timer){
                     addBuildingIntoAutomationQueue(timer.textContent);
                 }else{
-                    console.log('no timer element')
+                    console.error('no timer element')
                 }
             }else{
-                console.log('Item was not ready to finish, something went wrong.')
+                console.error('Item was not ready to finish, something went wrong.')
             }
         }
     }
