@@ -72,6 +72,7 @@
                             "Dounosgav",
                             "Hydradougav",
                             "Draiththospsi",
+                            "Rhokykos"
                         ]
                     }
                 ];
