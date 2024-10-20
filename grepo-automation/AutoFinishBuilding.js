@@ -41,7 +41,6 @@
     function addBuildingIntoAutomationQueue(restTime){
         try{
             let buildingFinishTimer = localStorage.getItem('buildingFinishTimer');
-
             if (buildingFinishTimer){
                 try {
                     buildingFinishTimer = JSON.parse(buildingFinishTimer);
@@ -65,24 +64,50 @@
         }
     }
 
-    function checkQueueItem(activeEntries, indexType){
-        const entry = activeEntries[indexType === 'last' ? activeEntries.length - 1 : 0];
-        
+    function saveTimer(entry){
+        const timer = entry.querySelector('span.countdown');
+        if (timer){
+            addBuildingIntoAutomationQueue(timer.textContent);
+        }else{
+            console.error('no timer element');
+        }
+    }
+
+    function checkFreeFinish(entry){
         const freeFinish = entry.querySelector('div.type_free');
         if (freeFinish){
             freeFinish.querySelector('div.caption').click();
-        }else{
-            if (indexType === 'last'){
-                const timer = entry.querySelector('span.countdown');
-                if (timer){
-                    addBuildingIntoAutomationQueue(timer.textContent);
-                }else{
-                    console.error('no timer element')
+            return true;
+        }
+        return false;
+    }
+
+    function checkFirstQueueItem(activeEntries){
+        let i = 0;
+        if(checkFreeFinish(activeEntries[i])){
+            //First item finished, check next item, add to Q
+            i++;
+            while(activeEntries[i]){
+                if(checkFreeFinish(activeEntries[i])){
+                    i++;
+                } else{
+                    saveTimer(activeEntries[i]);
+                    break;
                 }
-            }else{
-                console.error('Item was not ready to finish, something went wrong.')
             }
         }
+    }
+
+    function checkLastQueueItem(activeEntries){
+        const entry = activeEntries[activeEntries.length - 1];
+        if(checkFreeFinish(entry)){
+            //New item finished, nothing to do
+        }else{
+            //New item not able to finish, if it's the only item add it to Q, otherwise we only care about the first one in the Q
+            if (activeEntries.length === 1){
+                saveTimer(entry);
+            }
+        };
     }
 
     function getQueueEntries(){
@@ -102,7 +127,7 @@
         if (classes.contains('button_build') || classes.contains('build_button')){
             if (!(classes.contains('build_grey') || classes.contains('disabled'))){
                 await awaitLoading();
-                checkQueueItem(getQueueEntries(), 'last');
+                checkLastQueueItem(getQueueEntries());
             }
         }
     }
@@ -131,11 +156,11 @@
                 const timestamp = new Date(buildingEntry.timestamp);
                 if (timestamp <= new Date()){
                     goToCity(buildingEntry.cityName);
-                    checkQueueItem(getQueueEntries(), 'first');
                     allTimers = allTimers.filter(entry => entry !== buildingEntry);
+                    localStorage.setItem('buildingFinishTimer', JSON.stringify(allTimers));
+                    checkFirstQueueItem(getQueueEntries());
                 }
             });
-            localStorage.setItem('buildingFinishTimer', JSON.stringify(allTimers));
         };
         setInterval(checkTimers, 10000);
     }
