@@ -73,8 +73,6 @@
                     {
                         cityName: "Hoger",
                         cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
-                        cityName: "Hoger",
-                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
                         islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
                         farmingVillages: [
                             "Ithnosrhota",
@@ -174,21 +172,7 @@
         }
     }
 
-    // Execute the click sequence immediately on the first run
-    function startFarmingLoop() {
-        if (intervalId) {
-            console.log("Farming loop is already running.");
-            return; // If the loop is already running, do nothing
-        }
 
-        console.log("Starting the farming loop...");
-        performClicks().then(() => {
-            const nextFarmingTime = calculateNextFarming();
-
-            chrome.storage.sync.set({ nextExecution: nextFarmingTime });
-            intervalId = setInterval(performClicks, FARMING_DELAY); // Start the loop
-        });
-    }
 
     // Execute the click sequence and start the loop immediately on the first run
     startFarmingLoop();
