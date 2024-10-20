@@ -1,4 +1,7 @@
 (function() {
+
+    const FARMING_DELAY = 300500;
+
     // Check if automation is already running
     if (window.grepolisAutomationRunning) {
         console.log("Click automation is already running.");
@@ -7,12 +10,7 @@
 
     window.grepolisAutomationRunning = true; // Set the flag to true
 
-    // Move the interval declaration outside the if statement
     let intervalId;
-
-    function delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     function awaitLoading(){
         return new Promise((resolve) => {
@@ -31,7 +29,15 @@
         });
     }
 
+    function calculateNextFarming() {
+        const currentTime = new Date().getTime();
+        return currentTime + FARMING_DELAY;
+    }
+
     async function performClicks() {
+        const nextFarmingTime = calculateNextFarming();
+        console.log(nextFarmingTime);
+        chrome.storage.sync.set({ nextExecution: nextFarmingTime });
         console.log("Starting the farming click sequence...");
 
         let profile = document.querySelector('li[data-option-id="profile"]');
@@ -78,7 +84,10 @@
                         farmingVillages: [
                             "Ithnosrhota",
                             "Nadou",
-                            "Nakokos"
+                            "Nakokos",
+                            "Gathosrosko",
+                            "Gakosithko",
+                            "Dragi"
                         ]
                     }
                 ];
@@ -189,8 +198,10 @@
 
     // Execute the click sequence immediately on the first run
     performClicks().then(() => {
-        // Start the interval to perform clicks every 5 minutes (300500 milliseconds)
-        intervalId = setInterval(performClicks, 300500); // Repeat every 5 minutes
+        const nextFarmingTime = calculateNextFarming();
+        console.log(nextFarmingTime);
+        chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+        intervalId = setInterval(performClicks, FARMING_DELAY);
     });
 
     // Listen for messages to stop the interval
@@ -200,6 +211,11 @@
             intervalId = undefined; // Reset the intervalId
             window.grepolisAutomationRunning = false; // Reset the flag
             console.log("Click automation stopped.");
+        }
+
+        if (message.action === "startFarmingNow") {
+            console.log("Manual farming triggered");
+            performClicks();
         }
     });
 
