@@ -1,6 +1,6 @@
 (function() {
 
-    const FARMING_DELAY = 600500;
+    const FARMING_DELAY = 30500;
     let intervalId;
 
     if (window.farmingAutomation) {
@@ -71,6 +71,8 @@
             }else{
                 villages = [
                     {
+                        cityName: "Hoger",
+                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
                         cityName: "Hoger",
                         cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
                         islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
@@ -190,7 +192,25 @@
 
     // Execute the click sequence and start the loop immediately on the first run
     startFarmingLoop();
+    function startFarmingLoop() {
+        if (intervalId) {
+            console.log("Farming loop is already running.");
+            return; // If the loop is already running, do nothing
+        }
 
+        console.log("Starting the farming loop...");
+        performClicks().then(() => {
+            const nextFarmingTime = calculateNextFarming();
+            console.log(nextFarmingTime);
+            chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+            intervalId = setInterval(performClicks, FARMING_DELAY); // Start the loop
+        });
+    }
+
+    // Execute the click sequence and start the loop immediately on the first run
+    startFarmingLoop();
+
+    // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     chrome.runtime.onMessage.addListener((message) => {
         if (message.action === "stopAutomation" && intervalId) {
