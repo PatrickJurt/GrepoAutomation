@@ -86,7 +86,8 @@
                             "Nadou",
                             "Nakokos",
                             "Gathosrosko",
-                            "Gakosithko"
+                            "Gakosithko",
+                            "Dragi"
                         ]
                     }
                 ];
@@ -210,6 +211,11 @@
             intervalId = undefined; // Reset the intervalId
             window.grepolisAutomationRunning = false; // Reset the flag
             console.log("Click automation stopped.");
+        }
+
+        if (message.action === "startFarmingNow") {
+            console.log("Manual farming triggered");
+            performClicks();
         }
     });
 

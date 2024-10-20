@@ -26,7 +26,21 @@
             color: #FF5722;
             margin-top: 10px;
         }
-
+        .farm-now-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .farm-now-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +48,7 @@
 <p>(GAI)</p>
 <div class="countdown" id="countdown">Loading...</div>
 
+<button class="farm-now-btn" id="farmNowBtn">Farm now</button>
 
 <script src="popup.js"></script>
 </body>
