@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    disableLoopBtn.addEventListener('click', () => {
+        //same as above
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs[0].id) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: "disableFarmingLoop" });
+            }
+        });
+    });
+
 
     function updateCountdown() {
         chrome.storage.sync.get(['nextExecution'], (result) => {
@@ -20,7 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentTime = new Date().getTime(); // Get the current time in milliseconds
                 const timeRemaining = nextExecution - currentTime; // Calculate the remaining time
 
-                if (timeRemaining > 0) {
+                if(result.nextExecution === 0){
+                    countdownElement.textContent = "Timer stopped";
+                }
+
+                else if (timeRemaining > 0) {
                     const minutes = Math.floor(timeRemaining / 60000); // Convert to minutes
                     const seconds = Math.floor((timeRemaining % 60000) / 1000); // Convert remaining milliseconds to seconds
 
