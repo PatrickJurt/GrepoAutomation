@@ -1,6 +1,6 @@
 (function() {
 
-    const FARMING_DELAY = 30500;
+    const FARMING_DELAY = 300500;
     let intervalId;
 
     if (window.farmingAutomation) {
