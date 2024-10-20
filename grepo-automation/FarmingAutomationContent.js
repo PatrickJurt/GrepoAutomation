@@ -1,6 +1,7 @@
 (function() {
 
-    const FARMING_DELAY = 300500;
+    const FARMING_DELAY = 600500;
+    let intervalId;
 
     if (window.farmingAutomation) {
         console.log("Click automation is already running.");
@@ -8,8 +9,6 @@
     }
 
     window.farmingAutomation = true;
-
-    let intervalId;
 
     function awaitLoading(){
         return new Promise((resolve) => {
@@ -36,7 +35,7 @@
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
 
-        let profile = document.querySelector('li[data-option-id="profile"]');
+        const profile = document.querySelector('li[data-option-id="profile"]');
         if (profile) {
             profile.click();
             await awaitLoading();
