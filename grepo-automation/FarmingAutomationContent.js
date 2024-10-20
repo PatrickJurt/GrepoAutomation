@@ -56,7 +56,7 @@
             if (username.textContent.trim() === 'HansliHornochse'){
                 villages = [
                     {
-                        cityName: "HansliHornochse's Stadt",
+                        cityName: "HansliHornochses Stadt",
                         cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IkhhbnNsaUhvcm5vY2hzZXMgU3RhZHQifQ==",
                         islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
                         farmingVillages: [
@@ -64,7 +64,8 @@
                             "Dounosgav",
                             "Hydradougav",
                             "Draiththospsi",
-                            "Rhokykos"
+                            "Rhokykos",
+                            "Dougi"
                         ]
                     }
                 ];

@@ -55,7 +55,10 @@
                 buildingFinishTimer = [];
             }
 
-            const newEntry = { cityName: getCityName(), timestamp: getTimestamp(restTime) };
+            const cityName = getCityName();
+            buildingFinishTimer = buildingFinishTimer.filter((entry) => entry.cityName !== cityName)
+
+            const newEntry = { cityName: cityName, timestamp: getTimestamp(restTime) };
             buildingFinishTimer.push(newEntry);
             localStorage.setItem('buildingFinishTimer', JSON.stringify(buildingFinishTimer));
 
@@ -95,6 +98,9 @@
                     break;
                 }
             }
+            //First item isn't finishable, timer in storage doesn't work, get new one
+        }else{
+            checkFirstQueueItem(getQueueEntries());
         }
     }
 
@@ -129,6 +135,10 @@
                 await awaitLoading();
                 checkLastQueueItem(getQueueEntries());
             }
+        }
+
+        if (classes.contains('type_free')){
+            checkFirstQueueItem(getQueueEntries());
         }
     }
 
