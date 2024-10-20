@@ -1,6 +1,7 @@
 (function() {
 
-    const FARMING_DELAY = 300500;
+    const FARMING_DELAY = 30500;
+    let intervalId;
 
     if (window.farmingAutomation) {
         console.log("Click automation is already running.");
@@ -8,8 +9,6 @@
     }
 
     window.farmingAutomation = true;
-
-    let intervalId;
 
     function awaitLoading(){
         return new Promise((resolve) => {
@@ -36,7 +35,7 @@
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
 
-        let profile = document.querySelector('li[data-option-id="profile"]');
+        const profile = document.querySelector('li[data-option-id="profile"]');
         if (profile) {
             profile.click();
             await awaitLoading();
@@ -72,8 +71,8 @@
             }else{
                 villages = [
                     {
-                        cityName: "HugoHornochse's Stadt",
-                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6Ikh1Z29Ib3Jub2Noc2VzIFN0YWR0In0=",
+                        cityName: "Hoger",
+                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
                         islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
                         farmingVillages: [
                             "Ithnosrhota",
@@ -173,16 +172,62 @@
         }
     }
 
-    // Execute the click sequence immediately on the first run
-    performClicks().then(() => {
-        const nextFarmingTime = calculateNextFarming();
-        chrome.storage.sync.set({ nextExecution: nextFarmingTime });
-        intervalId = setInterval(performClicks, FARMING_DELAY);
-    });
 
-    // Listen for messages to stop the interval
+
+    // Execute the click sequence and start the loop immediately on the first run
+    startFarmingLoop();
+    function startFarmingLoop() {
+        if (intervalId) {
+            console.log("Farming loop is already running.");
+            return; // If the loop is already running, do nothing
+        }
+
+        console.log("Starting the farming loop...");
+        performClicks().then(() => {
+            const nextFarmingTime = calculateNextFarming();
+            console.log(nextFarmingTime);
+            chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+            intervalId = setInterval(performClicks, FARMING_DELAY); // Start the loop
+        });
+    }
+
+    // Execute the click sequence and start the loop immediately on the first run
+    startFarmingLoop();
+
+    // Listen for messages to stop the interval, trigger manual farming, or restart the loop
+    // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     chrome.runtime.onMessage.addListener((message) => {
-        if (message.action === "startFarmingNow") performClicks();
+        if (message.action === "stopAutomation" && intervalId) {
+            clearInterval(intervalId); // Clear the interval
+            intervalId = undefined; // Reset the intervalId
+            window.grepolisAutomationRunning = false; // Reset the flag
+            console.log("Click automation stopped.");
+        }
+
+        if (message.action === "startFarmingNow") {
+            console.log("Manual farming triggered");
+
+            // Trigger farming immediately
+            performClicks();
+
+            // Restart the farming loop if it's not already running
+            if (!intervalId) {
+                startFarmingLoop(); // This will restart the loop
+            }
+        }
+
+        if (message.action === "disableFarmingLoop") {
+            console.log("Disabling farming loop...");
+            if (intervalId) {
+                clearInterval(intervalId); // Clear the farming loop
+                intervalId = undefined; // Reset the intervalId
+                window.grepolisAutomationRunning = false; // Reset the flag
+                chrome.storage.sync.set({ nextExecution: 0 });
+                console.log("Farming loop disabled.");
+            } else {
+                console.log("No farming loop was running.");
+            }
+        }
     });
 
     console.log("Content script successfully injected.");
