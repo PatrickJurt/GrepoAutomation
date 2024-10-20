@@ -2,13 +2,12 @@
 
     const FARMING_DELAY = 300500;
 
-    // Check if automation is already running
     if (window.farmingAutomation) {
         console.log("Click automation is already running.");
-        return; // Exit if already running
+        return;
     }
 
-    window.farmingAutomation = true; // Set the flag to true
+    window.farmingAutomation = true;
 
     let intervalId;
 
