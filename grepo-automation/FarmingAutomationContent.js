@@ -3,12 +3,12 @@
     const FARMING_DELAY = 300500;
 
     // Check if automation is already running
-    if (window.grepolisAutomationRunning) {
+    if (window.farmingAutomation) {
         console.log("Click automation is already running.");
         return; // Exit if already running
     }
 
-    window.grepolisAutomationRunning = true; // Set the flag to true
+    window.farmingAutomation = true; // Set the flag to true
 
     let intervalId;
 
@@ -209,7 +209,7 @@
         if (message.action === "stopAutomation" && intervalId) {
             clearInterval(intervalId); // Clear the interval
             intervalId = undefined; // Reset the intervalId
-            window.grepolisAutomationRunning = false; // Reset the flag
+            window.farmingAutomation = false; // Reset the flag
             console.log("Click automation stopped.");
         }
 
