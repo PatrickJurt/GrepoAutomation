@@ -1,6 +1,6 @@
 (function() {
 
-    const FARMING_DELAY = 300500;
+    const FARMING_DELAY = 600500;
     let intervalId;
 
     if (window.farmingAutomation) {
@@ -143,8 +143,6 @@
                 if (closeVillage) {
                     closeVillage.click();
                     await awaitLoading();
-                } else {
-                    console.warn("Div with class 'btn_wnd close' not found.");
                 }
             }
 
