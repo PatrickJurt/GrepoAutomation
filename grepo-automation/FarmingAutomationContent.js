@@ -148,25 +148,11 @@
                 }
             }
 
-            let closeIsland = document.querySelector('button[class="icon_right icon_type_speed ui-dialog-titlebar-close"]');
-            if (closeIsland) {
-                closeIsland.click();
+            let closeAll = document.querySelector('button[class="btn_close_all_windows"]');
+            if (closeAll) {
+                closeAll.click();
             } else {
-                console.warn("Button to close island not found.");
-            }
-
-            let closeIslandInfo = document.querySelector('button[class="icon_right icon_type_speed ui-dialog-titlebar-close"]');
-            if (closeIslandInfo) {
-                closeIslandInfo.click();
-            } else {
-                console.warn("Button to close islandInfo not found.");
-            }
-
-            let closeCity = document.querySelector('button[class="icon_right icon_type_speed ui-dialog-titlebar-close"]');
-            if (closeCity) {
-                closeCity.click();
-            } else {
-                console.warn("Button to close Profile not found.");
+                console.warn("Button to close all not found.");
             }
         }
     }
