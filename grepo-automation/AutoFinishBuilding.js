@@ -33,7 +33,7 @@
         calculatedTime.setMinutes(currentTime.getMinutes() + minutes);
         calculatedTime.setSeconds(currentTime.getSeconds() + seconds);
         calculatedTime.setMinutes(calculatedTime.getMinutes() - 5);
-        calculatedTime.setSeconds(calculatedTime.getSeconds() + 5);
+        calculatedTime.setSeconds(calculatedTime.getSeconds() + 1);
 
         return calculatedTime.toISOString();
     }
@@ -172,7 +172,7 @@
                 }
             });
         };
-        setInterval(checkTimers, 10000);
+        setInterval(checkTimers, 5000);
     }
 
     document.addEventListener('click', (event) => {
