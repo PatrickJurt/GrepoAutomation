@@ -173,10 +173,6 @@
         }
     }
 
-
-
-    // Execute the click sequence and start the loop immediately on the first run
-    startFarmingLoop();
     function startFarmingLoop() {
         if (intervalId) {
             console.log("Farming loop is already running.");
@@ -186,7 +182,6 @@
         console.log("Starting the farming loop...");
         performClicks().then(() => {
             const nextFarmingTime = calculateNextFarming();
-            console.log(nextFarmingTime);
             chrome.storage.sync.set({ nextExecution: nextFarmingTime });
             intervalId = setInterval(performClicks, FARMING_DELAY); // Start the loop
         });
@@ -195,7 +190,6 @@
     // Execute the click sequence and start the loop immediately on the first run
     startFarmingLoop();
 
-    // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     chrome.runtime.onMessage.addListener((message) => {
         if (message.action === "stopAutomation" && intervalId) {
