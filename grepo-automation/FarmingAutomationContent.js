@@ -31,17 +31,24 @@
         return currentTime + FARMING_DELAY;
     }
 
+    async function clickElement(querySelector){
+        const element = document.querySelector(querySelector);
+        if (element) {
+            element.click();
+            await awaitLoading();
+        }
+    }
+
     async function performClicks() {
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
 
-        const profile = document.querySelector('li[data-option-id="profile"]');
-        if (profile) {
-            profile.click();
-            await awaitLoading();
-        } else {
-            console.warn("Li with data-option-id 'profile' not found.");
-        }
+        clickElement('li[data-option-id="profile"]');
+
+        let villages = [];
+
+        await awaitLoading();
+        const playerInfoText = document.querySelector('div#player_info').textContent.trim();
 
         /*
         Only add the url of one city per island
@@ -50,9 +57,6 @@
         To find the farming island url, go to city info, open dev tools and select the island
         This will highlight an anchor element with a href to copy the url from
         */
-        let villages = [];
-
-        const playerInfoText = document.querySelector('#player_info').textContent.trim();
         if (playerInfoText.includes('HansliHornochse')){
             villages = [
                 {
@@ -90,37 +94,12 @@
 
         for (const city of villages) {
 
-            let town = document.querySelector(`a[href='${city.cityURL}']`);
-            if (town) {
-                town.click();
-                await awaitLoading();
-            } else {
-                console.warn(`Link with href of ${city.cityName} (${city.cityURL}) not found.`);
-            }
-
-            let info = document.querySelector('div[id="info"]');
-            if (info) {
-                info.click();
-                await awaitLoading();
-            } else {
-                console.warn("Div with id 'info' not found.");
-            }
-
-            let island = document.querySelector(`a[href='${city.islandURL}']`);
-            if (island) {
-                island.click();
-                await awaitLoading();
-            } else {
-                console.warn(`Link with href '${city.islandURL}' not found.`);
-            }
-
-            let islandInfo = document.querySelector('div[id="island_info"]');
-            if (islandInfo) {
-                islandInfo.click();
-                await awaitLoading();
-            } else {
-                console.warn("Div with id 'island_info' not found.");
-            }
+            clickElement(`a[href='${city.cityURL}']`);
+            clickElement('div[id="info"]');
+            await awaitLoading();
+            clickElement(`a[href='${city.islandURL}']`);
+            clickElement('div[id="island_info"]');
+            await awaitLoading();
 
             for (const farmingVillage of city.farmingVillages) {
                 let allVillages = document.querySelectorAll('a');
@@ -129,29 +108,13 @@
                 if (village) {
                     village.click();
                     await awaitLoading();
-                } else {
-                    console.warn(`Anchor with inner text '${farmingVillage}' not found.`);
                 }
 
-                let claimRessources = document.querySelector('div[class="btn_claim_resources button button_new"]');
-                if (claimRessources) {
-                    claimRessources.click();
-                    await awaitLoading();
-                }
-
-                let closeVillage = document.querySelector('div[class="btn_wnd close"]');
-                if (closeVillage) {
-                    closeVillage.click();
-                    await awaitLoading();
-                }
+                clickElement('div[class="btn_claim_resources button button_new"]');
+                clickElement('div[class="btn_wnd close"]');
             }
 
-            let closeAll = document.querySelector('div[class="btn_close_all_windows"]');
-            if (closeAll) {
-                closeAll.click();
-            } else {
-                console.warn("Button to close all not found.");
-            }
+            clickElement('div[class="btn_close_all_windows"]');
         }
     }
 
