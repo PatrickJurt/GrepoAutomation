@@ -137,7 +137,7 @@
             }
         }
 
-        if (classes.contains('type_free')){
+        if (event.target.textContent === 'Gratis'){
             checkFirstQueueItem(getQueueEntries());
         }
     }
