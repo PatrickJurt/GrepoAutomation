@@ -16,7 +16,6 @@
         });
     }
 
-
     function getCityName(){
         const town = document.querySelector('.town_name');
         if (town){
@@ -76,6 +75,18 @@
         }
     }
 
+    function getQueueEntries(){
+        const queue = document.querySelector('.ui_various_orders');
+        if (queue){
+            if (!queue.classList.contains('empty_queue')){
+                const activeEntries = [...queue.children].filter(div => !div.classList.contains('empty_slot'));
+                if (activeEntries.length > 0){
+                    return activeEntries;
+                }
+            }
+        }
+    }
+
     function checkFreeFinish(entry){
         const freeFinish = entry.querySelector('div.type_free');
         if (freeFinish){
@@ -87,20 +98,24 @@
 
     function checkFirstQueueItem(activeEntries){
         let i = 0;
-        if(checkFreeFinish(activeEntries[i])){
-            //First item finished, check next item, add to Q
-            i++;
-            while(activeEntries[i]){
-                if(checkFreeFinish(activeEntries[i])){
-                    i++;
-                } else{
-                    saveTimer(activeEntries[i]);
-                    break;
-                }
-            }
-            //First item isn't finishable, timer in storage doesn't work, get new one
+        if(!activeEntries){
+            throw new Error(`activeEntries not found, i: ${i}, getQueueEntries(): ${getQueueEntries()}`);
         }else{
-            checkFirstQueueItem(getQueueEntries());
+            if(checkFreeFinish(activeEntries[i])){
+                //First item finished, check next item, add to Q
+                i++;
+                while(activeEntries[i]){
+                    if(checkFreeFinish(activeEntries[i])){
+                        i++;
+                    } else{
+                        saveTimer(activeEntries[i]);
+                        break;
+                    }
+                }
+                //First item isn't finishable, timer in storage doesn't work, get new one
+            }else{
+                checkFirstQueueItem(getQueueEntries());
+            }
         }
     }
 
@@ -114,18 +129,6 @@
                 saveTimer(entry);
             }
         };
-    }
-
-    function getQueueEntries(){
-        const queue = document.querySelector('.ui_various_orders');
-        if (queue){
-            if (!queue.classList.contains('empty_queue')){
-                const activeEntries = [...queue.children].filter(div => !div.classList.contains('empty_slot'));
-                if (activeEntries.length > 0){
-                    return activeEntries;
-                }
-            }
-        }
     }
 
     async function clickHandler(event){
