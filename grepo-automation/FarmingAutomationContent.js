@@ -137,8 +137,6 @@
                 if (claimRessources) {
                     claimRessources.click();
                     await awaitLoading();
-                } else {
-                    console.warn("Div with class 'btn_claim_resources' not found.");
                 }
 
                 let closeVillage = document.querySelector('div[class="btn_wnd close"]');
