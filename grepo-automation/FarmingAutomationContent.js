@@ -51,41 +51,41 @@
         This will highlight an anchor element with a href to copy the url from
         */
         let villages = [];
-        const username = document.querySelector('h3');
-        if (username){
-            if (username.textContent.trim() === 'HansliHornochse'){
-                villages = [
-                    {
-                        cityName: "PadoPolis",
-                        cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyJ9",
-                        islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                        farmingVillages: [
-                            "Aekos",
-                            "Dounosgav",
-                            "Hydradougav",
-                            "Draiththospsi",
-                            "Rhokykos",
-                            "Dougi"
-                        ]
-                    }
-                ];
-            }else{
-                villages = [
-                    {
-                        cityName: "Hoger",
-                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
-                        islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                        farmingVillages: [
-                            "Ithnosrhota",
-                            "Nadou",
-                            "Nakokos",
-                            "Gathosrosko",
-                            "Gakosithko",
-                            "Dragi"
-                        ]
-                    }
-                ];
-            }
+
+        const playerInfoText = document.querySelector('#player_info').textContent.trim();
+        if (playerInfoText.includes('HansliHornochse')){
+            villages = [
+                {
+                    cityName: "PadoPolis",
+                    cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aekos",
+                        "Dounosgav",
+                        "Hydradougav",
+                        "Draiththospsi",
+                        "Rhokykos",
+                        "Dougi"
+                    ]
+                }
+            ];
+        }
+        if(playerInfoText.includes('HugoHornochse')){
+            villages = [
+                {
+                    cityName: "Hoger",
+                    cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Ithnosrhota",
+                        "Nadou",
+                        "Nakokos",
+                        "Gathosrosko",
+                        "Gakosithko",
+                        "Dragi"
+                    ]
+                }
+            ];
         }
 
         for (const city of villages) {
@@ -137,8 +137,6 @@
                 if (claimRessources) {
                     claimRessources.click();
                     await awaitLoading();
-                } else {
-                    console.warn("Div with class 'btn_claim_resources' not found.");
                 }
 
                 let closeVillage = document.querySelector('div[class="btn_wnd close"]');
@@ -173,10 +171,6 @@
         }
     }
 
-
-
-    // Execute the click sequence and start the loop immediately on the first run
-    startFarmingLoop();
     function startFarmingLoop() {
         if (intervalId) {
             console.log("Farming loop is already running.");
@@ -186,7 +180,6 @@
         console.log("Starting the farming loop...");
         performClicks().then(() => {
             const nextFarmingTime = calculateNextFarming();
-            console.log(nextFarmingTime);
             chrome.storage.sync.set({ nextExecution: nextFarmingTime });
             intervalId = setInterval(performClicks, FARMING_DELAY); // Start the loop
         });
@@ -195,7 +188,6 @@
     // Execute the click sequence and start the loop immediately on the first run
     startFarmingLoop();
 
-    // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     chrome.runtime.onMessage.addListener((message) => {
         if (message.action === "stopAutomation" && intervalId) {
