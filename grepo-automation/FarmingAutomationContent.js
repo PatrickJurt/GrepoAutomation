@@ -148,7 +148,7 @@
                 }
             }
 
-            let closeAll = document.querySelector('button[class="btn_close_all_windows"]');
+            let closeAll = document.querySelector('div[class="btn_close_all_windows"]');
             if (closeAll) {
                 closeAll.click();
             } else {
