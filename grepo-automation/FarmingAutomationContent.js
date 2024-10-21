@@ -51,41 +51,41 @@
         This will highlight an anchor element with a href to copy the url from
         */
         let villages = [];
-        const username = document.querySelector('h3');
-        if (username){
-            if (username.textContent.trim() === 'HansliHornochse'){
-                villages = [
-                    {
-                        cityName: "PadoPolis",
-                        cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyJ9",
-                        islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                        farmingVillages: [
-                            "Aekos",
-                            "Dounosgav",
-                            "Hydradougav",
-                            "Draiththospsi",
-                            "Rhokykos",
-                            "Dougi"
-                        ]
-                    }
-                ];
-            }else{
-                villages = [
-                    {
-                        cityName: "Hoger",
-                        cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
-                        islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                        farmingVillages: [
-                            "Ithnosrhota",
-                            "Nadou",
-                            "Nakokos",
-                            "Gathosrosko",
-                            "Gakosithko",
-                            "Dragi"
-                        ]
-                    }
-                ];
-            }
+
+        const playerInfoText = document.querySelector('#player_info').textContent.trim();
+        if (playerInfoText.includes('HansliHornochse')){
+            villages = [
+                {
+                    cityName: "PadoPolis",
+                    cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aekos",
+                        "Dounosgav",
+                        "Hydradougav",
+                        "Draiththospsi",
+                        "Rhokykos",
+                        "Dougi"
+                    ]
+                }
+            ];
+        }
+        if(playerInfoText.includes('HugoHornochse')){
+            villages = [
+                {
+                    cityName: "Hoger",
+                    cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Ithnosrhota",
+                        "Nadou",
+                        "Nakokos",
+                        "Gathosrosko",
+                        "Gakosithko",
+                        "Dragi"
+                    ]
+                }
+            ];
         }
 
         for (const city of villages) {
