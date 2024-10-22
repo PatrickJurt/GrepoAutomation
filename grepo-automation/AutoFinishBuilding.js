@@ -4,12 +4,7 @@
         return new Promise((resolve) => {
             const checkExistence = setInterval(() => {
                 const loader = document.getElementById('ajax_loader');
-                if (loader){
-                    if (loader.style.visibility === 'hidden'){
-                        clearInterval(checkExistence);
-                        resolve();
-                    }
-                } else{
+                if (!loader || loader.style.visibility === 'hidden'){
                     resolve();
                 }
             }, 100);
@@ -18,12 +13,10 @@
 
     function getCityName(){
         const town = document.querySelector('.town_name');
-        if (town){
-            return town.textContent.trim();
-        }
+        return town ? town.textContent.trim() : 'Town name not found.';
     }
 
-    function getTimestamp(restTime){
+    function getEndTimestamp(restTime){
         const [hours, minutes, seconds] = restTime.split(':').map(Number);
         const currentTime = new Date();
         const calculatedTime = new Date(currentTime);
@@ -37,57 +30,58 @@
         return calculatedTime.toISOString();
     }
 
-    function addBuildingIntoAutomationQueue(restTime){
-        try{
-            let buildingFinishTimer = localStorage.getItem('buildingFinishTimer');
-            if (buildingFinishTimer){
-                try {
-                    buildingFinishTimer = JSON.parse(buildingFinishTimer);
-                    if (!Array.isArray(buildingFinishTimer)){
-                        throw new Error('Parsed value is not an array');
-                    }
-                } catch(e){
-                    console.error("Error parsing 'buildingFinishTimer from localStorage:", e)
-                    buildingFinishTimer = [];
-                }
-            } else {
-                buildingFinishTimer = [];
+    function getJSONfromStorage(storagePlace){
+        const storageItem = localStorage.getItem(storagePlace);
+        if (storageItem){
+            try {
+                return JSON.parse(storageItem);
+            } catch(e){
+                console.error(`Error parsing '${storagePlace}' from localStorage:`, e);
+                return [];
             }
-
-            const cityName = getCityName();
-            buildingFinishTimer = buildingFinishTimer.filter((entry) => entry.cityName !== cityName)
-
-            const newEntry = { cityName: cityName, timestamp: getTimestamp(restTime) };
-            buildingFinishTimer.push(newEntry);
-            localStorage.setItem('buildingFinishTimer', JSON.stringify(buildingFinishTimer));
-
-        } catch (e) {
-            console.error("Error updating 'buildingFinishTimer':", e);
+        } else {
+            console.warn(`No ${storagePlace} found in Storage.`);
+            return [];
         }
     }
 
     function saveTimer(entry){
-        const timer = entry.querySelector('span.countdown');
-        if (timer){
-            addBuildingIntoAutomationQueue(timer.textContent);
-        }else{
-            console.error('no timer element');
+        const instantBuildTimers = getJSONfromStorage('instantBuildTimers');
+        const cityName = getCityName();
+        let cityEntry = instantBuildTimers.find(entry => entry.cityName === cityName);
+        if (!cityEntry){
+            console.warn(`City ${cityName} had no element in instantBuildTimers.`);
+            cityEntry = {cityName: cityName, timestamp: ''};
+            instantBuildTimers.push(cityEntry);
+            console.warn('cityEntry now:', cityEntry);
         }
+
+        if (!entry){
+            cityEntry.timestamp = 'Empty Queue';
+        }else{
+            const timerElement = entry.querySelector('span.countdown');
+            if (timerElement){
+                if (cityEntry) {
+                    cityEntry.timestamp = getEndTimestamp(timerElement.textContent);
+                }
+            }else{
+                console.error('No timer element found');
+                cityEntry.timestamp = 'Empty Queue';
+            }
+        }
+        localStorage.setItem('instantBuildTimers', JSON.stringify(instantBuildTimers));
     }
 
-    function getQueueEntries(){
+    function getBuildingQueue(){
         const queue = document.querySelector('.ui_various_orders');
         if (queue){
             if (!queue.classList.contains('empty_queue')){
-                const activeEntries = [...queue.children].filter(div => !div.classList.contains('empty_slot'));
-                if (activeEntries.length > 0){
-                    return activeEntries;
-                }
+                return [...queue.children].filter(div => !div.classList.contains('empty_slot'));
             }
         }
     }
 
-    function checkFreeFinish(entry){
+    function instantBuild(entry){
         const freeFinish = entry.querySelector('div.type_free');
         if (freeFinish){
             freeFinish.querySelector('div.caption').click();
@@ -96,39 +90,38 @@
         return false;
     }
 
-    function checkFirstQueueItem(activeEntries){
-        let i = 0;
-        if(!activeEntries){
-            throw new Error(`activeEntries not found, i: ${i}, getQueueEntries(): ${getQueueEntries()}`);
-        }else{
-            if(checkFreeFinish(activeEntries[i])){
-                //First item finished, check next item, add to Q
-                i++;
-                while(activeEntries[i]){
-                    if(checkFreeFinish(activeEntries[i])){
+    function checkFirstQueueItem(){
+        const buildingQueue = getBuildingQueue()
+        if(buildingQueue.length > 0){
+            let i = 0;
+            while(true){
+                if(instantBuild(buildingQueue[i])){
+                    if (buildingQueue.length > i + 1){
                         i++;
-                    } else{
-                        saveTimer(activeEntries[i]);
+                    }else{
+                        saveTimer();
                         break;
                     }
+                }else{
+                    saveTimer(buildingQueue[i]);
+                    break;
                 }
-                //First item isn't finishable, timer in storage doesn't work, get new one
-            }else{
-                checkFirstQueueItem(getQueueEntries());
             }
+        }else{
+            saveTimer();
         }
     }
 
-    function checkLastQueueItem(activeEntries){
-        const entry = activeEntries[activeEntries.length - 1];
-        if(checkFreeFinish(entry)){
-            //New item finished, nothing to do
-        }else{
-            //New item not able to finish, if it's the only item add it to Q, otherwise we only care about the first one in the Q
-            if (activeEntries.length === 1){
-                saveTimer(entry);
+    function checkLastQueueItem(){
+        const buildingQueue = getBuildingQueue()
+        if (buildingQueue.length > 0){
+            const latestEntry = buildingQueue[buildingQueue.length - 1];
+            if(!instantBuild(latestEntry)){
+                if (buildingQueue.length === 1){
+                    saveTimer(latestEntry);
+                }
             }
-        };
+        }
     }
 
     async function clickHandler(event){
@@ -136,12 +129,11 @@
         if (classes.contains('button_build') || classes.contains('build_button')){
             if (!(classes.contains('build_grey') || classes.contains('disabled'))){
                 await awaitLoading();
-                checkLastQueueItem(getQueueEntries());
+                checkLastQueueItem();
             }
         }
-
         if (event.target.textContent === 'Gratis'){
-            checkFirstQueueItem(getQueueEntries());
+            checkFirstQueueItem();
         }
     }
 
@@ -162,26 +154,34 @@
     }
     
     function timerCheck() {
-        const checkTimers = () => {
-            let allTimers = JSON.parse(localStorage.getItem('buildingFinishTimer'));
-            if (!allTimers || allTimers.length === 0) return;
-            allTimers.forEach((buildingEntry) => {
-                const timestamp = new Date(buildingEntry.timestamp);
-                if (timestamp <= new Date()){
-                    goToCity(buildingEntry.cityName);
-                    allTimers = allTimers.filter(entry => entry !== buildingEntry);
-                    localStorage.setItem('buildingFinishTimer', JSON.stringify(allTimers));
-                    checkFirstQueueItem(getQueueEntries());
+        const checkBuildingQueueTimers = () => {
+            let instantBuildTimers = getJSONfromStorage('instantBuildTimers');
+            if(instantBuildTimers){
+                if (instantBuildTimers.length === 0){
+                    console.warn(`${instantBuildTimers} is empty.`);
+                    checkFirstQueueItem();
+                    return;
                 }
-            });
+                instantBuildTimers.forEach((cityTimer) => {
+                    if (new Date(cityTimer.timestamp) <= new Date()){
+                        goToCity(cityTimer.cityName);
+                        checkFirstQueueItem(getBuildingQueue());
+                    }
+                });
+            }else{
+            }
         };
-        setInterval(checkTimers, 5000);
+        setInterval(checkBuildingQueueTimers, 5000);
     }
 
+
+    /*
+----------------------------------------
+            START OF CODE
+----------------------------------------
+    */
     document.addEventListener('click', (event) => {
         clickHandler(event);
     });
-
     timerCheck();
-
 })();
