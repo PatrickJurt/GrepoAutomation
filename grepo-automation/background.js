@@ -2,8 +2,12 @@
 TODO
 
 - Manche Städte 5min / 10min Ressi
-- Bei Ext Reload mehrfaches laufen der Extension
+- Manchmal läuft Farmer mehrmals? Wacky
 - Bei vollem Lager kein farmen
+- AutoBuild nicht aus storage holen jedes Mal
+- Bei Angriff Einheiten automatisch rausschicken (einstellbar)
+- Ressi / Min oder Ressi / h mit/ohne BD farmen in GUI
+- Erweiterte Bauschleife
 
 
 
