@@ -45,10 +45,15 @@
 
         clickElement('li[data-option-id="profile"]');
 
-        let villages = [];
-
         await awaitLoading();
-        const playerInfoText = document.querySelector('div#player_info').textContent.trim();
+        const playerInfo = document.querySelector('div#player_info');
+
+        let playerInfoText;
+        if (playerInfo){
+            playerInfoText = playerInfo.textContent.trim();
+        }else{
+            console.log('Could not find playerInfo (FarmingAutomationContent.js:55)');
+        }
 
         /*
         Only add the url of one city per island
@@ -57,6 +62,7 @@
         To find the farming island url, go to city info, open dev tools and select the island
         This will highlight an anchor element with a href to copy the url from
         */
+        let villages = [];
         if (playerInfoText.includes('HansliHornochse')){
             villages = [
                 {
