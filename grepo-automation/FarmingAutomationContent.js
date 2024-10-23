@@ -40,6 +40,7 @@
     }
 
     async function performClicks() {
+        console.log('Farming at', (new Date()).toTimeString().split(' ')[0]);
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
 
