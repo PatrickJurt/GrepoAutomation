@@ -1,6 +1,6 @@
 (function() {
 
-    const FARMING_DELAY = 600500;
+    const FARMING_DELAY = 300500;
     let intervalId;
 
     if (window.farmingAutomation) {
@@ -31,11 +31,13 @@
         return currentTime + FARMING_DELAY;
     }
 
-    async function clickElement(querySelector){
+    async function clickElement(querySelector) {
         const element = document.querySelector(querySelector);
         if (element) {
             element.click();
             await awaitLoading();
+        } else {
+            console.log(`Element not found for selector: ${querySelector}`);
         }
     }
 
@@ -43,6 +45,8 @@
         console.log('Farming at', (new Date()).toTimeString().split(' ')[0]);
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+        clickElement('div[class="caption js-viewport"]')
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         clickElement('li[data-option-id="profile"]');
 
@@ -85,6 +89,7 @@
             villages = [
                 {
                     cityName: "Hoger",
+                    townID:"4511",
                     cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
                     islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
                     farmingVillages: [
@@ -95,12 +100,30 @@
                         "Gakosithko",
                         "Dragi"
                     ]
+                },
+                {
+                    cityName: "Ghetto",
+                    townID:"5879",
+                    cityURL: "#eyJpZCI6NTg3OSwiaXgiOjUyOSwiaXkiOjU0NSwidHAiOiJ0b3duIiwibmFtZSI6IkdoZXR0byJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOCwiaXgiOjUyOSwiaXkiOjU0NSwicmVzIjoiU3ciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aeta",
+                        "Dougavkos",
+                        "Dounoskos",
+                        "Kydraith",
+                        "Kytaros",
+                        "Nahynos"
+                    ]
                 }
             ];
         }
 
         for (const city of villages) {
+            clickElement('div[class="caption js-viewport"]')
+            clickElement(`div[data-townid="${city.townID}"]`)
 
+            clickElement('li[data-option-id="profile"]');
+            await awaitLoading();
             clickElement(`a[href='${city.cityURL}']`);
             clickElement('div[id="info"]');
             await awaitLoading();
@@ -123,6 +146,8 @@
 
             clickElement('div[class="btn_close_all_windows"]');
         }
+        clickElement('div[class="caption js-viewport"]')
+
     }
 
     function startFarmingLoop() {
