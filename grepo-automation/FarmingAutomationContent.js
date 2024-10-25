@@ -72,6 +72,7 @@
             villages = [
                 {
                     cityName: "PadoPolis",
+                    townID:"4786",
                     cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyJ9",
                     islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
                     farmingVillages: [
@@ -81,6 +82,20 @@
                         "Draiththospsi",
                         "Rhokykos",
                         "Dougi"
+                    ]
+                },
+                {
+                    cityName: "PadoPolis II",
+                    townID:"6027",
+                    cityURL: "#eyJpZCI6NjAyNywiaXgiOjU1OCwiaXkiOjUwNywidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyBJSSJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NSwiaXgiOjU1OCwiaXkiOjUwNywicmVzIjoiV3MiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Dradourospsi",
+                        "Garos",
+                        "Gavgav",
+                        "Hystridrahy",
+                        "Psikynos",
+                        "Striithgavthos"
                     ]
                 }
             ];
