@@ -78,6 +78,8 @@
             if (!queue.classList.contains('empty_queue')){
                 return [...queue.children].filter(div => !div.classList.contains('empty_slot'));
             }
+        }else{
+            console.log('No queue', queue)
         }
     }
 
