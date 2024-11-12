@@ -71,31 +71,17 @@
         if (playerInfoText.includes('HansliHornochse')){
             villages = [
                 {
-                    cityName: "PadoPolis",
-                    townID:"4786",
-                    cityURL: "#eyJpZCI6NDc4NiwiaXgiOjU1OCwiaXkiOjUwMCwidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyJ9",
-                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NCwiaXgiOjU1OCwiaXkiOjUwMCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    cityName: "Bahnhof",
+                    townID:"31",
+                    cityURL: "#eyJpZCI6MzEsIml4Ijo1MDIsIml5Ijo1MDksInRwIjoidG93biIsIm5hbWUiOiJCYWhuaG9mIn0=",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDIzNiwiaXgiOjUwMiwiaXkiOjUwOSwicmVzIjoiU3ciLCJsbmsiOnRydWUsInduIjoiIn0=",
                     farmingVillages: [
-                        "Aekos",
-                        "Dounosgav",
-                        "Hydradougav",
-                        "Draiththospsi",
-                        "Rhokykos",
-                        "Dougi"
-                    ]
-                },
-                {
-                    cityName: "PadoPolis II",
-                    townID:"6027",
-                    cityURL: "#eyJpZCI6NjAyNywiaXgiOjU1OCwiaXkiOjUwNywidHAiOiJ0b3duIiwibmFtZSI6IlBhZG9Qb2xpcyBJSSJ9",
-                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDQ5NSwiaXgiOjU1OCwiaXkiOjUwNywicmVzIjoiV3MiLCJsbmsiOnRydWUsInduIjoiIn0=",
-                    farmingVillages: [
-                        "Dradourospsi",
-                        "Garos",
-                        "Gavgav",
-                        "Hystridrahy",
-                        "Psikynos",
-                        "Striithgavthos"
+                        "Gananosdra",
+                        "Hynos",
+                        "Rhodradougav",
+                        "Rhohy",
+                        "Tarho"//,
+                        //"Nosgi"
                     ]
                 }
             ];
