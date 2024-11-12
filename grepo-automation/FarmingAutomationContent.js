@@ -104,30 +104,15 @@
             villages = [
                 {
                     cityName: "Hoger",
-                    townID:"4511",
-                    cityURL: "#eyJpZCI6NDUxMSwiaXgiOjUyNywiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6IkhvZ2VyIn0=",
-                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOSwiaXgiOjUyNywiaXkiOjU0OCwicmVzIjoiU2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    townID:"62",
+                    cityURL: "#eyJpZCI6NjIsIml4Ijo1MDIsIml5Ijo1MDksInRwIjoidG93biIsIm5hbWUiOiJIb2dlciJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MDIzNiwiaXgiOjUwMiwiaXkiOjUwOSwicmVzIjoiU3ciLCJsbmsiOnRydWUsInduIjoiIn0=",
                     farmingVillages: [
-                        "Ithnosrhota",
-                        "Nadou",
-                        "Nakokos",
-                        "Gathosrosko",
-                        "Gakosithko",
-                        "Dragi"
-                    ]
-                },
-                {
-                    cityName: "Ghetto",
-                    townID:"5879",
-                    cityURL: "#eyJpZCI6NTg3OSwiaXgiOjUyOSwiaXkiOjU0NSwidHAiOiJ0b3duIiwibmFtZSI6IkdoZXR0byJ9",
-                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTEzOCwiaXgiOjUyOSwiaXkiOjU0NSwicmVzIjoiU3ciLCJsbmsiOnRydWUsInduIjoiIn0=",
-                    farmingVillages: [
-                        "Aeta",
-                        "Dougavkos",
-                        "Dounoskos",
-                        "Kydraith",
-                        "Kytaros",
-                        "Nahynos"
+                        "Nosgi",
+                        "Hynos",
+                        "Gananosdra",
+                        "Rhohy",
+                        "Rhodradougav"
                     ]
                 }
             ];
