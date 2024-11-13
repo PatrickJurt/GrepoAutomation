@@ -37,7 +37,7 @@
         if (element) {
             element.click();
             await awaitLoading();
-            await new Promise(resolve => setTimeout(resolve, click_delay)); // 0.5-second delay
+            await new Promise(resolve => setTimeout(resolve, click_delay));
         } else {
             console.log(`Element not found for selector: ${querySelector}`);
         }
