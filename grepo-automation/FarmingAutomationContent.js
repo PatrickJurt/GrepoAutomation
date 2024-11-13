@@ -163,6 +163,13 @@
 
         if (message.action === "resetTimer") {
             console.log("Manual farming triggered");
+            if (intervalId) {
+                clearInterval(intervalId); // Clear the farming loop
+                intervalId = undefined; // Reset the intervalId
+                window.grepolisAutomationRunning = false; // Reset the flag
+                chrome.storage.sync.set({ nextExecution: 0 });
+                console.log("Farming loop disabled.");
+            }
 
             // Trigger farming immediately
             performClicks();
@@ -170,6 +177,9 @@
             // Restart the farming loop if it's not already running
             if (!intervalId) {
                 startFarmingLoop(); // This will restart the loop
+            }
+            else{
+
             }
         }
 
