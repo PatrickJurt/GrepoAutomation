@@ -21,50 +21,106 @@
             font-size: 14px;
             margin-top: 0;
         }
+        /* Tab styles */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .tab {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #4CAF50;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+            margin-top: 15px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        /* Existing styles */
         .countdown {
             font-size: 24px;
             color: #FF5722;
             margin-top: 10px;
         }
-        .farm-now-btn {
+        .reset-timer-btn, .disable-loop-btn {
             display: inline-block;
             padding: 10px 20px;
             font-size: 16px;
             color: white;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-        .farm-now-btn:hover {
-            background-color: #45a049;
-        }
-        .disable-loop-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #f44336;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
             transition: background-color 0.3s ease;
         }
-        .disable-loop-btn:hover {
-            background-color: #e53935;
+        .reset-timer-btn { background-color: #4CAF50; }
+        .reset-timer-btn:hover { background-color: #45a049; }
+        .disable-loop-btn { background-color: #f44336; }
+        .disable-loop-btn:hover { background-color: #e53935; }
+        .slider-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .slider-label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .slider {
+            width: 100%;
+            appearance: none;
+            height: 6px;
+            background: #ddd;
+            outline: none;
+            border-radius: 5px;
+        }
+        .slider::-webkit-slider-thumb, .slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <h3>Grepolis Automation Interface</h3>
 <p>(GAI)</p>
-<div class="countdown" id="countdown">Loading...</div>
 
-<button class="farm-now-btn" id="farmNowBtn">Farm now</button>
-<button class="disable-loop-btn" id="disableLoopBtn">Disable loop</button>
+<!-- Tab Buttons -->
+<div class="tab-container">
+    <div class="tab active" data-tab="fai">FAI</div>
+    <div class="tab" data-tab="tab2">Tab 2</div>
+    <div class="tab" data-tab="tab3">Tab 3</div>
+</div>
+
+<!-- Tab Content for FAI -->
+<div class="tab-content active" id="fai">
+    <div class="countdown" id="countdown">Loading...</div>
+    <button class="reset-timer-btn" id="resetTimerBtn">Reset timer</button>
+    <button class="disable-loop-btn" id="disableLoopBtn">Disable loop</button>
+    <div class="slider-container">
+        <label for="delaySlider" class="slider-label">Click-Delay (in s)</label>
+        <input type="range" id="delaySlider" class="slider" min="0" max="2" step="0.1" value="0">
+        <div id="delayValue">0 s</div>
+    </div>
+</div>
+
+<!-- Placeholder content for Tab 2 and Tab 3 -->
+<div class="tab-content" id="tab2">
+    <p>Content for Tab 2 goes here...</p>
+</div>
+<div class="tab-content" id="tab3">
+    <p>Content for Tab 3 goes here...</p>
+</div>
 
 <script src="popup.js"></script>
 </body>
