@@ -1,6 +1,7 @@
 (function() {
 
     const FARMING_DELAY = 601000;
+    let click_delay = 0;
     let intervalId;
 
     if (window.farmingAutomation) {
@@ -36,6 +37,7 @@
         if (element) {
             element.click();
             await awaitLoading();
+            await new Promise(resolve => setTimeout(resolve, click_delay)); // 0.5-second delay
         } else {
             console.log(`Element not found for selector: ${querySelector}`);
         }
@@ -46,7 +48,7 @@
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
         clickElement('div[class="caption js-viewport"]')
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, click_delay));
 
         clickElement('li[data-option-id="profile"]');
 
@@ -98,23 +100,24 @@
                         "Hynos",
                         "Gananosdra",
                         "Rhohy",
-                        "Rhodradougav"
+                        "Rhodradougav",
+                        "Tarho"
                     ]
                 }
             ];
         }
 
         for (const city of villages) {
-            clickElement('div[class="caption js-viewport"]')
-            clickElement(`div[data-townid="${city.townID}"]`)
+            await clickElement('div[class="caption js-viewport"]')
+            await clickElement(`div[data-townid="${city.townID}"]`)
 
-            clickElement('li[data-option-id="profile"]');
+            await clickElement('li[data-option-id="profile"]');
             await awaitLoading();
-            clickElement(`a[href='${city.cityURL}']`);
-            clickElement('div[id="info"]');
+            await clickElement(`a[href='${city.cityURL}']`);
+            await clickElement('div[id="info"]');
             await awaitLoading();
-            clickElement(`a[href='${city.islandURL}']`);
-            clickElement('div[id="island_info"]');
+            await clickElement(`a[href='${city.islandURL}']`);
+            await clickElement('div[id="island_info"]');
             await awaitLoading();
 
             for (const farmingVillage of city.farmingVillages) {
@@ -126,13 +129,13 @@
                     await awaitLoading();
                 }
 
-                clickElement('div[class="btn_claim_resources button button_new"]');
-                clickElement('div[class="btn_wnd close"]');
+                await clickElement('div[class="btn_claim_resources button button_new"]');
+                await clickElement('div[class="btn_wnd close"]');
             }
 
-            clickElement('div[class="btn_close_all_windows"]');
+            await clickElement('div[class="btn_close_all_windows"]');
         }
-        clickElement('div[class="caption js-viewport"]')
+        await clickElement('div[class="caption js-viewport"]')
 
     }
 
@@ -150,19 +153,15 @@
         });
     }
 
-    // Execute the click sequence and start the loop immediately on the first run
-    startFarmingLoop();
-
     // Listen for messages to stop the interval, trigger manual farming, or restart the loop
     chrome.runtime.onMessage.addListener((message) => {
-        if (message.action === "stopAutomation" && intervalId) {
-            clearInterval(intervalId); // Clear the interval
-            intervalId = undefined; // Reset the intervalId
-            window.grepolisAutomationRunning = false; // Reset the flag
-            console.log("Click automation stopped.");
+        if (message.action === "updateDelay") {
+            console.log("Update delay to " + message.delay * 1000);
+            click_delay = message.delay * 1000;
+
         }
 
-        if (message.action === "startFarmingNow") {
+        if (message.action === "resetTimer") {
             console.log("Manual farming triggered");
 
             // Trigger farming immediately
@@ -187,6 +186,9 @@
             }
         }
     });
+
+    // Execute the click sequence and start the loop immediately on the first run
+        startFarmingLoop();
 
     console.log("Content script successfully injected.");
 })();
