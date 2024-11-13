@@ -11,6 +11,7 @@
 
     window.farmingAutomation = true;
 
+
     function awaitLoading(){
         return new Promise((resolve) => {
             const checkExistence = setInterval(() => {
@@ -47,16 +48,16 @@
         console.log('Farming at', (new Date()).toTimeString().split(' ')[0]);
         const nextFarmingTime = calculateNextFarming();
         chrome.storage.sync.set({ nextExecution: nextFarmingTime });
-        clickElement('div[class="caption js-viewport"]')
-        await new Promise(resolve => setTimeout(resolve, click_delay));
-
-        clickElement('li[data-option-id="profile"]');
-
+        await clickElement('div[class="caption js-viewport"]')
+        await new Promise(resolve => setTimeout(resolve, 500));
+        await clickElement('li[data-option-id="profile"]');
         await awaitLoading();
+        console.log("look for playerinfo")
         const playerInfo = document.querySelector('div#player_info');
 
         let playerInfoText;
         if (playerInfo){
+        console.log("playerinfo sint undefined")
             playerInfoText = playerInfo.textContent.trim();
         }else{
             console.log('Could not find playerInfo (FarmingAutomationContent.js:55)');
