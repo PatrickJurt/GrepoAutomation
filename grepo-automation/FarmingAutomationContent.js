@@ -82,8 +82,8 @@
                         "Hynos",
                         "Rhodradougav",
                         "Rhohy",
-                        "Tarho"//,
-                        //"Nosgi"
+                        "Tarho",
+                        "Nosgi"
                     ]
                 }
             ];
