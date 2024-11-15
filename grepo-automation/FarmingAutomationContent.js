@@ -86,6 +86,20 @@
                         "Tarho",
                         "Nosgi"
                     ]
+                },
+                {
+                    cityName: "Industrie",
+                    townID:"1910",
+                    cityURL: "#eyJpZCI6MTkxMCwiaXgiOjUyNywiaXkiOjUyNiwidHAiOiJ0b3duIiwibmFtZSI6IkluZHVzdHJpZSJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MjY4MSwiaXgiOjUyNywiaXkiOjUyNiwicmVzIjoiU3ciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Dradou",
+                        "Hythosta",
+                        "Kosaestri",
+                        "Kosthosta",
+                        "Striginos",
+                        "Gavkosnos"
+                    ]
                 }
             ];
         }
