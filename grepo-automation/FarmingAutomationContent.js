@@ -104,7 +104,21 @@
                         "Rhodradougav",
                         "Tarho"
                     ]
-                }
+                },
+                {
+                    cityName: "Mülifäud",
+                    townID:"1528",
+                    cityURL: "#eyJpZCI6MTUyOCwiaXgiOjUyNywiaXkiOjUyNiwidHAiOiJ0b3duIiwibmFtZSI6Ik1cdTAwZmNsaWZcdTAwZTR1ZCJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MjY4MSwiaXgiOjUyNywiaXkiOjUyNiwicmVzIjoiU3ciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Striginos",
+                        "Kosaestri",
+                        "Hythosta",
+                        "Dradou",
+                        "Kosthosta",
+                        "Gavkosnos"
+                        ]
+                    }
             ];
         }
 
@@ -171,9 +185,6 @@
                 chrome.storage.sync.set({ nextExecution: 0 });
                 console.log("Farming loop disabled.");
             }
-
-            // Trigger farming immediately
-            performClicks();
 
             // Restart the farming loop if it's not already running
             if (!intervalId) {
