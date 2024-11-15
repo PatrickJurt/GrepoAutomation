@@ -44,13 +44,12 @@
         .tab-content.active {
             display: block;
         }
-        /* Existing styles */
         .countdown {
             font-size: 24px;
             color: #FF5722;
             margin-top: 10px;
         }
-        .reset-timer-btn, .disable-loop-btn {
+        .reset-timer-btn, .disable-loop-btn, .calculate-btn {
             display: inline-block;
             padding: 10px 20px;
             font-size: 16px;
@@ -65,6 +64,8 @@
         .reset-timer-btn:hover { background-color: #45a049; }
         .disable-loop-btn { background-color: #f44336; }
         .disable-loop-btn:hover { background-color: #e53935; }
+        .calculate-btn { background-color: #4CAF50; }
+        .calculate-btn:hover { background-color: #45a049; }
         .slider-container {
             margin-top: 15px;
             text-align: center;
@@ -89,6 +90,11 @@
             border-radius: 50%;
             cursor: pointer;
         }
+        .value-container {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +104,7 @@
 <!-- Tab Buttons -->
 <div class="tab-container">
     <div class="tab active" data-tab="fai">FAI</div>
-    <div class="tab" data-tab="tab2">Tab 2</div>
+    <div class="tab" data-tab="dai">DAI</div>
     <div class="tab" data-tab="tab3">Tab 3</div>
 </div>
 
@@ -114,10 +120,17 @@
     </div>
 </div>
 
-<!-- Placeholder content for Tab 2 and Tab 3 -->
-<div class="tab-content" id="tab2">
-    <p>Content for Tab 2 goes here...</p>
+<!-- Tab Content for DAI -->
+<div class="tab-content" id="dai">
+    <button class="calculate-btn" id="calculateBtn">Calculate</button>
+    <div class="value-container">
+        <p>Schlag: <span id="hackValue">0</span></p>
+        <p>Stich: <span id="pierceValue">0</span></p>
+        <p>Fern: <span id="distanceValue">0</span></p>
+    </div>
 </div>
+
+<!-- Placeholder content for Tab 3 -->
 <div class="tab-content" id="tab3">
     <p>Content for Tab 3 goes here...</p>
 </div>

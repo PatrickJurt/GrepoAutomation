@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const delayValue = document.getElementById('delayValue');
     const tabs = document.querySelectorAll('.tab');
     const tabContents = document.querySelectorAll('.tab-content');
+    const hackElement = document.getElementById('hackValue');
+    const pierceElement = document.getElementById('pierceValue');
+    const distanceElement = document.getElementById('distanceValue');
 
     // Retrieve the saved delay value and set it to the slider and display text
     chrome.storage.sync.get(['delayValue'], (result) => {
@@ -34,6 +37,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+    });
+
+    calculateBtn.addEventListener('click', () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs[0].id) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: "calculateDef" });
+            }
+        });
+    });
+
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        if (message.action === "calculationComplete") {
+            // Fetch the results from chrome.storage.sync
+            chrome.storage.sync.get(['DAIResults'], (result) => {
+                if (result.DAIResults) {
+                    hackElement.textContent = result.DAIResults.hackDefense?.toString() || "N/A";
+                    pierceElement.textContent = result.DAIResults.pierceDefense?.toString() || "N/A";
+                    distanceElement.textContent = result.DAIResults.distanceDefense?.toString() || "N/A";
+                } else {
+                    console.log("DAI results not found or empty.");
+                }
+            });
+        }
     });
 
     resetTimerBtn.addEventListener('click', () => {
@@ -81,4 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(tab.dataset.tab).classList.add('active');
         });
     });
+
+
+
+
 });

@@ -26,7 +26,7 @@ function executeTask() {
       chrome.scripting.executeScript(
           {
             target: { tabId: grepolisTabId },
-            files: ['FarmingAutomationContent.js', 'AutoFinishBuilding.js'],
+            files: ['FarmingAutomationContent.js', 'AutoFinishBuilding.js', 'DefenseCalculator.js'],
           },
           (injectionResults) => {
             if (chrome.runtime.lastError) {
