@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         if (message.action === "calculationComplete") {
-            // Fetch the results from chrome.storage.sync
             chrome.storage.sync.get(['DAIResults'], (result) => {
                 if (result.DAIResults) {
                     hackElement.textContent = result.DAIResults.hackDefense?.toString() || "N/A";

@@ -8,7 +8,17 @@
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "16": "images/fierce_firefighter.png",
+    "48": "images/fierce_firefighter.png",
+    "128": "images/fierce_firefighter.png"
+  },
   "action": {
+    "default_icon": {
+      "16": "images/fierce_firefighter.png",
+      "48": "images/fierce_firefighter.png",
+      "128": "images/fierce_firefighter.png"
+    },
     "default_popup": "popup.html",
     "default_title": "Grepolis Automation"
   },

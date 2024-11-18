@@ -1,8 +1,16 @@
 (function() {
 
+    let intervalId;
+    let syncOffset;
+
+    //delays
     const FARMING_DELAY = 601000;
     let click_delay = 0;
-    let intervalId;
+
+    //flags
+    let justSynced = false;
+    let recreateInterval = false;
+    let firstExecution = true;
 
     if (window.farmingAutomation) {
         console.log("Click automation is already running.");
@@ -41,7 +49,35 @@
             await new Promise(resolve => setTimeout(resolve, click_delay));
         } else {
             console.log(`Element not found for selector: ${querySelector}`);
+            if(querySelector = 'div[class="btn_claim_resources button button_new"]'){
+                chrome.storage.sync.set({ nextExecution: syncCooldown() });
+            }
         }
+    }
+
+    function syncCooldown() {
+        const timeElement = document.querySelector('span.pb_bpv_unlock_time');
+        if (!timeElement) {
+            console.log("Element with class 'pb_bpv_unlock_time' not found.");
+            return null;
+        }
+
+        const timeText = timeElement.textContent.trim();
+        const timeMatch = timeText.match(/^(\d{2}):(\d{2}):(\d{2})$/);
+        if (!timeMatch) {
+            console.log("Time format is invalid. Expected HH:MM:SS, got:", timeText);
+            return null;
+        }
+
+        const [, hours, minutes, seconds] = timeMatch.map(Number);
+        const milliseconds = (hours * 3600 + minutes * 60 + seconds) * 1000;
+        const currentTimeMillis = Date.now();
+        const targetTimeMillis = currentTimeMillis + milliseconds;
+        syncOffset = milliseconds;
+        justSynced = true;
+        recreateInterval = true;
+
+        return targetTimeMillis;
     }
 
     async function performClicks() {
@@ -57,7 +93,6 @@
 
         let playerInfoText;
         if (playerInfo){
-        console.log("playerinfo sint undefined")
             playerInfoText = playerInfo.textContent.trim();
         }else{
             console.log('Could not find playerInfo (FarmingAutomationContent.js:55)');
@@ -117,8 +152,22 @@
                         "Dradou",
                         "Kosthosta",
                         "Gavkosnos"
-                        ]
-                    }
+                    ]
+                },
+                {
+                    cityName: "Chutloch",
+                    townID:"2814",
+                    cityURL: "#eyJpZCI6MjgxNCwiaXgiOjU0MCwiaXkiOjUzNSwidHAiOiJ0b3duIiwibmFtZSI6IkNodXRsb2NoIn0=",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MjczOCwiaXgiOjU0MCwiaXkiOjUzNSwicmVzIjoiV3MiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Gistri",
+                        "Rosros",
+                        "Aedoupsipsi",
+                        "Psipsihydou",
+                        "Strina",
+                        "Kosnosnagi"
+                    ]
+                }
             ];
         }
 
@@ -151,21 +200,43 @@
             await clickElement('div[class="btn_close_all_windows"]');
         }
         await clickElement('div[class="caption js-viewport"]')
+        if(recreateInterval){
+            // if farming villages are not ready yet, create a new delayed interval
+            recreateInterval = false;
+            startFarmingLoop();
+        }
 
     }
 
     function startFarmingLoop() {
-        if (intervalId) {
-            console.log("Farming loop is already running.");
-            return; // If the loop is already running, do nothing
+        if(firstExecution){
+            firstExecution = false;
+            performClicks();
         }
 
         console.log("Starting the farming loop...");
-        performClicks().then(() => {
             const nextFarmingTime = calculateNextFarming();
-            chrome.storage.sync.set({ nextExecution: nextFarmingTime });
-            intervalId = setInterval(performClicks, FARMING_DELAY); // Start the loop
-        });
+
+            if (justSynced) {
+                clearInterval(intervalId);
+                intervalId = undefined;
+
+                console.log("created a new interval with sync delay " + syncOffset)
+                setTimeout(() => {
+                    performClicks().then(() => {
+                        chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+                        intervalId = setInterval(performClicks, FARMING_DELAY);
+                    });
+                }, syncOffset);
+                justSynced = false;
+            } else {
+                chrome.storage.sync.set({ nextExecution: nextFarmingTime });
+                clearInterval(intervalId);
+                intervalId = undefined;
+                console.log("created a new interval with usual delay")
+                intervalId = setInterval(performClicks, FARMING_DELAY);
+
+            }
     }
 
     // Listen for messages to stop the interval, trigger manual farming, or restart the loop
@@ -181,7 +252,6 @@
             if (intervalId) {
                 clearInterval(intervalId); // Clear the farming loop
                 intervalId = undefined; // Reset the intervalId
-                window.grepolisAutomationRunning = false; // Reset the flag
                 chrome.storage.sync.set({ nextExecution: 0 });
                 console.log("Farming loop disabled.");
             }
