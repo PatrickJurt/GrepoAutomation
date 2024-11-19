@@ -1,5 +1,7 @@
 (function () {
 
+    return;
+
     function awaitLoading(){
         return new Promise((resolve) => {
             const checkExistence = setInterval(() => {
