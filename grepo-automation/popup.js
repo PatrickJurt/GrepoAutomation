@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hackElement = document.getElementById('hackValue');
     const pierceElement = document.getElementById('pierceValue');
     const distanceElement = document.getElementById('distanceValue');
+    const autoSyncCheckbox = document.getElementById('autoSyncCheckbox');
 
     // Retrieve the saved delay value and set it to the slider and display text
     chrome.storage.sync.get(['delayValue'], (result) => {
@@ -15,6 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
             delayValue.textContent = result.delayValue + ' s';
         } else {
             delayValue.textContent = delaySlider.value + ' s'; // Default to current slider value
+        }
+    });
+
+    chrome.storage.sync.get(['autoSyncEnabled'], (result) => {
+        if (result.autoSyncEnabled !== undefined) {
+            autoSyncCheckbox.checked = result.autoSyncEnabled;
+        } else {
+            autoSyncCheckbox.checked = true; // Default to checked if no value is stored
         }
     });
 
@@ -77,6 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    autoSyncCheckbox.addEventListener('change', () => {
+        const isChecked = autoSyncCheckbox.checked;
+
+        chrome.storage.sync.set({ autoSyncEnabled: isChecked }, () => {
+            console.log(`Auto Sync set to ${isChecked}`);
+        });
+
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs[0].id) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: "autoSync", value: isChecked });
+            }
+        });
+    });
+
     function updateCountdown() {
         chrome.storage.sync.get(['nextExecution'], (result) => {
             const nextExecution = new Date(result.nextExecution);
@@ -106,8 +129,5 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(tab.dataset.tab).classList.add('active');
         });
     });
-
-
-
 
 });

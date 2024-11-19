@@ -95,6 +95,23 @@
             font-size: 16px;
             color: #333;
         }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .checkbox-label {
+            font-size: 14px;
+            color: #333;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        .checkbox-input {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +134,10 @@
         <label for="delaySlider" class="slider-label">Click-Delay (in s)</label>
         <input type="range" id="delaySlider" class="slider" min="0" max="2" step="0.1" value="0">
         <div id="delayValue">0 s</div>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="autoSyncCheckbox" class="checkbox-input" checked>
+        <label for="autoSyncCheckbox" class="checkbox-label">Auto Sync</label>
     </div>
 </div>
 
