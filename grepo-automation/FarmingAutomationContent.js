@@ -11,6 +11,7 @@
     let justSynced = false;
     let recreateInterval = false;
     let firstExecution = true;
+    let autoSync = true;
 
     if (window.farmingAutomation) {
         console.log("Click automation is already running.");
@@ -49,7 +50,8 @@
             await new Promise(resolve => setTimeout(resolve, click_delay));
         } else {
             console.log(`Element not found for selector: ${querySelector}`);
-            if(querySelector = 'div[class="btn_claim_resources button button_new"]'){
+            if(querySelector = 'div[class="btn_claim_resources button button_new"]' && autoSync){
+                console.log("sync is " + autoSync)
                 chrome.storage.sync.set({ nextExecution: syncCooldown() });
             }
         }
@@ -167,6 +169,20 @@
                         "Strina",
                         "Kosnosnagi"
                     ]
+                },
+                {
+                    cityName: "Ebni",
+                    townID:"3685",
+                    cityURL: "#eyJpZCI6MzY4NSwiaXgiOjUzOCwiaXkiOjUzOSwidHAiOiJ0b3duIiwibmFtZSI6IkVibmkifQ==",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MjY4MywiaXgiOjUzOCwiaXkiOjUzOSwicmVzIjoiV3MiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aeith",
+                        "Rosrhokos",
+                        "Aekoshy",
+                        "Aekydou",
+                        "Gata",
+                        "Rhonosgikos"
+                    ]
                 }
             ];
         }
@@ -248,6 +264,7 @@
         }
 
         if (message.action === "resetTimer") {
+            performClicks();
             console.log("Manual farming triggered");
             if (intervalId) {
                 clearInterval(intervalId); // Clear the farming loop
@@ -277,6 +294,12 @@
                 console.log("No farming loop was running.");
             }
         }
+
+        if (message.action === "autoSync") {
+            console.log("toggled autosync");
+            autoSync = message.value;
+        }
+
     });
 
     // Execute the click sequence and start the loop immediately on the first run
