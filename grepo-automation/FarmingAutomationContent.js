@@ -137,6 +137,18 @@
                         "Striginos",
                         "Gavkosnos"
                     ]
+                },
+                {
+                    cityName: "Roggeflue",
+                    townID:"4314",
+                    cityURL: "#eyJpZCI6NDMxNCwiaXgiOjUzOCwiaXkiOjUzOSwidHAiOiJ0b3duIiwibmFtZSI6IlJvZ2dlZmx1ZSJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MjY4MywiaXgiOjUzOCwiaXkiOjUzOSwicmVzIjoiV3MiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aekoshy",
+                        "Gata",
+                        "Rhonosgikos",
+                        "Rosrhokos"
+                    ]
                 }
             ];
         }
