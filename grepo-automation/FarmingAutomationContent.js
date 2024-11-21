@@ -144,7 +144,9 @@
                     cityURL: "#eyJpZCI6NDMxNCwiaXgiOjUzOCwiaXkiOjUzOSwidHAiOiJ0b3duIiwibmFtZSI6IlJvZ2dlZmx1ZSJ9",
                     islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2MjY4MywiaXgiOjUzOCwiaXkiOjUzOSwicmVzIjoiV3MiLCJsbmsiOnRydWUsInduIjoiIn0=",
                     farmingVillages: [
+                        "Aeith",
                         "Aekoshy",
+                        "Aekydou",
                         "Gata",
                         "Rhonosgikos",
                         "Rosrhokos"
