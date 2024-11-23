@@ -151,6 +151,20 @@
                         "Rhonosgikos",
                         "Rosrhokos"
                     ]
+                },
+                {
+                    cityName: "Füürwehrmagazin",
+                    townID:"5234",
+                    cityURL: "#eyJpZCI6NTIzNCwiaXgiOjU0MCwiaXkiOjU0NCwidHAiOiJ0b3duIiwibmFtZSI6IkZcdTAwZmNcdTAwZmNyd2Vocm1hZ2F6aW4ifQ==",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTA3MiwiaXgiOjU0MCwiaXkiOjU0NCwicmVzIjoiSXciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Douaenaga",
+                        "Kospsi",
+                        "Kosthos",
+                        "Rosith",
+                        "Thosthos",
+                        "Nosae"
+                    ]
                 }
             ];
         }
