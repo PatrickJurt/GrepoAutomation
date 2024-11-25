@@ -165,6 +165,20 @@
                         "Thosthos",
                         "Nosae"
                     ]
+                },
+                {
+                    cityName: "Hirsacker",
+                    townID:"5916",
+                    cityURL: "#eyJpZCI6NTkxNiwiaXgiOjU0MiwiaXkiOjU1MSwidHAiOiJ0b3duIiwibmFtZSI6IkhpcnNhY2tlciJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTA3MywiaXgiOjU0MiwiaXkiOjU1MSwicmVzIjoiSXciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Giith",
+                        "Ithros",
+                        "Kostri",
+                        "Kyta",
+                        "Nosthosnos",
+                        "Thosgastriga"
+                    ]
                 }
             ];
         }
