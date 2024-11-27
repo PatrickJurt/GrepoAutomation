@@ -179,6 +179,20 @@
                         "Nosthosnos",
                         "Thosgastriga"
                     ]
+                },
+                {
+                    cityName: "Üsseri Klus",
+                    townID:"6642",
+                    cityURL: "#eyJpZCI6NjY0MiwiaXgiOjUyOSwiaXkiOjU0OCwidHAiOiJ0b3duIiwibmFtZSI6Ilx1MDBkY3NzZXJpIEtsdXMifQ==",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTA0MCwiaXgiOjUyOSwiaXkiOjU0OCwicmVzIjoiSXciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Gadougavnos",
+                        "Gavae",
+                        "Gavkospsi",
+                        "Hytaga",
+                        "Kosgavdourho",
+                        "Rosgarho"
+                    ]
                 }
             ];
         }
