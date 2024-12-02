@@ -193,6 +193,48 @@
                         "Kosgavdourho",
                         "Rosgarho"
                     ]
+                },
+                {
+                    cityName: "Löiefäud",
+                    townID:"7018",
+                    cityURL: "#eyJpZCI6NzAxOCwiaXgiOjUzMCwiaXkiOjU1NCwidHAiOiJ0b3duIiwibmFtZSI6IkxcdTAwZjZpZWZcdTAwZTR1ZCJ9",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTA0MSwiaXgiOjUzMCwiaXkiOjU1NCwicmVzIjoiV2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Douhy",
+                        "Kosnatagav",
+                        "Nanos",
+                        "Nosko",
+                        "Psiithpsikos",
+                        "Rhokos"
+                    ]
+                },
+                {
+                    cityName: "Paradiesli",
+                    townID:"7606",
+                    cityURL: "#eyJpZCI6NzYwNiwiaXgiOjU0MiwiaXkiOjU1NiwidHAiOiJ0b3duIiwibmFtZSI6IlBhcmFkaWVzbGkifQ==",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTA3NCwiaXgiOjU0MiwiaXkiOjU1NiwicmVzIjoiV2kiLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Gata",
+                        "Hystriros",
+                        "Ithnosna",
+                        "Psigav",
+                        "Tastri",
+                        "Thosdraky"
+                    ]
+                },
+                {
+                    cityName: "Lehnflue",
+                    townID:"8287",
+                    cityURL: "#eyJpZCI6ODI4NywiaXgiOjU0OCwiaXkiOjU1NCwidHAiOiJ0b3duIiwibmFtZSI6IkxlaG5mbHVlIn0=",
+                    islandURL: "#eyJ0cCI6ImlzbGFuZCIsImlkIjo2NTA3NiwiaXgiOjU0OCwiaXkiOjU1NCwicmVzIjoiSXciLCJsbmsiOnRydWUsInduIjoiIn0=",
+                    farmingVillages: [
+                        "Aeroskoshy",
+                        "Gavkypsi",
+                        "Nospsikos",
+                        "Psikoith",
+                        "Rhohygi",
+                        "Tarhoga"
+                    ]
                 }
             ];
         }
